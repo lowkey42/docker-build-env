@@ -19,10 +19,18 @@ RUN apt-get update && \
 	apt-get install -y cmake build-essential && \
 	apt-get install -y git && \
 	apt-get install -y xorg-dev libglu1-mesa-dev --fix-missing && \
+	apt-get purge -y gcc g++ && \
 	apt-get install -y gcc-7 g++-7 && \
 	apt-get install -y clang-5.0 lldb-5.0 lld-5.0 libstdc++-5-dev && \
 	apt-get install -y clang-tidy cppcheck && \
 	apt-get install -y xutils-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev 
+
+RUN rm -f /usr/bin/g++
+RUN rm -f /usr/bin/gcc
+RUN ln -s /usr/bin/g++-7 /usr/bin/g++
+RUN ln -s /usr/bin/gcc-7 /usr/bin/gcc
+RUN ln -s /usr/bin/clang++-5.0 /usr/bin/clang++
+RUN ln -s /usr/bin/clang-5.0 /usr/bin/clang
 
 RUN wget -O VulkanSDK.run https://vulkan.lunarg.com/sdk/download/1.0.61.0/linux/vulkansdk-linux-x86_64-1.0.61.0.run?human=true && \
 	chmod ugo+x VulkanSDK.run
