@@ -25,7 +25,7 @@ RUN ln -s /usr/bin/g++-7 /usr/bin/g++
 RUN ln -s /usr/bin/gcc-7 /usr/bin/gcc
 
 
-RUN wget -O clang-binaries.tar.xz http://releases.llvm.org/5.0.0/clang+llvm-5.0.0-linux-x86_64-ubuntu16.04.tar.xz && tar -xf clang-binaries.tar.xz -C /usr && rm -f clang-binaries.tar.xz
+RUN wget -O clang-binaries.tar.xz http://releases.llvm.org/5.0.0/clang+llvm-5.0.0-linux-x86_64-ubuntu16.04.tar.xz && tar -xf clang-binaries.tar.xz --strip 1 -C /usr && rm -f clang-binaries.tar.xz
 
 RUN wget https://cmake.org/files/v3.9/cmake-3.9.3-Linux-x86_64.sh && \
     chmod +x ./cmake-3.9.3-Linux-x86_64.sh &&\
