@@ -35,7 +35,7 @@ RUN wget -O VulkanSDK.run https://vulkan.lunarg.com/sdk/download/1.0.61.0/linux/
 
 RUN	./VulkanSDK.run && rm -f VulkanSDK.run
 
-ENV	VULKAN_SDK="/VulkanSDK/1.0.54.0/x86_64"
+ENV	VULKAN_SDK="/VulkanSDK/1.0.61.0/x86_64"
 ENV	PATH="${VULKAN_SDK}/bin:${PATH}"
 ENV	LD_LIBRARY_PATH="${VULKAN_SDK}/lib:${LD_LIBRARY_PATH}"
 ENV	VK_LAYER_PATH="${VULKAN_SDK}/etc/explicit_layer.d"
