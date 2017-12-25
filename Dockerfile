@@ -1,4 +1,4 @@
-FROM       ubuntu:16.04
+FROM       ubuntu:artful 
 MAINTAINER Florian Oetke
 CMD        bash
 
@@ -6,9 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y wget software-properties-common python-software-properties
 
-RUN add-apt-repository ppa:jonathonf/gcc-7.1
-
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ xenial-proposed restricted main multiverse universe" >> /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ artful-proposed restricted main multiverse universe" >> /etc/apt/sources.list
 
 
 RUN apt-get update && \
@@ -32,7 +30,7 @@ RUN wget https://cmake.org/files/v3.9/cmake-3.9.3-Linux-x86_64.sh && \
     ./cmake-3.9.3-Linux-x86_64.sh --skip-license && \
     rm ./cmake-3.9.3-Linux-x86_64.sh
 
-RUN wget -O VulkanSDK.run https://vulkan.lunarg.com/sdk/download/1.0.54.0/linux/vulkansdk-linux-x86_64-1.0.59.0.run?human=true && \
+RUN wget -O VulkanSDK.run https://vulkan.lunarg.com/sdk/download/1.0.61.0/linux/vulkansdk-linux-x86_64-1.0.61.0.run?human=true && \
 	chmod ugo+x VulkanSDK.run
 
 RUN	./VulkanSDK.run && rm -f VulkanSDK.run
