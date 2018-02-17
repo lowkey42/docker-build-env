@@ -35,6 +35,16 @@ RUN wget -O VulkanSDK.run https://vulkan.lunarg.com/sdk/download/1.0.68.0/linux/
 
 RUN	./VulkanSDK.run && rm -f VulkanSDK.run
 
+RUN git clone --recursive https://github.com/KhronosGroup/Vulkan-Hpp.git
+RUN cd Vulkan-Hpp && \
+	git checkout bae68b49aa78445890c6078169e614de88ec9b13 && \
+	cd Vulkan-Docs && \
+	git checkout v1.0.68-core && \
+	cd .. && \
+	mkdir build && cd build && \
+	cmake .. && cmake --build . && ./VulkanHppGenerator && \
+	cp ../vulkan/vulkan.hpp /VulkanSDK/1.0.68.0/x86_64/include/vulkan/
+
 ENV	VULKAN_SDK="/VulkanSDK/1.0.68.0/x86_64"
 ENV	PATH="${VULKAN_SDK}/bin:${PATH}"
 ENV	LD_LIBRARY_PATH="${VULKAN_SDK}/lib:${LD_LIBRARY_PATH}"
