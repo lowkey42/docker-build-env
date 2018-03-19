@@ -30,22 +30,22 @@ RUN wget https://cmake.org/files/v3.9/cmake-3.9.3-Linux-x86_64.sh && \
     ./cmake-3.9.3-Linux-x86_64.sh --skip-license && \
     rm ./cmake-3.9.3-Linux-x86_64.sh
 
-RUN wget -O VulkanSDK.run https://vulkan.lunarg.com/sdk/download/1.0.68.0/linux/vulkansdk-linux-x86_64-1.0.68.0.run?human=true && \
+RUN wget -O VulkanSDK.run https://vulkan.lunarg.com/sdk/download/1.1.70.1/linux/vulkansdk-linux-x86_64-1.1.70.1.run?human=true && \
 	chmod ugo+x VulkanSDK.run
 
 RUN	./VulkanSDK.run && rm -f VulkanSDK.run
 
-RUN git clone --recursive https://github.com/KhronosGroup/Vulkan-Hpp.git
-RUN cd Vulkan-Hpp && \
-	git checkout bae68b49aa78445890c6078169e614de88ec9b13 && \
+RUN git clone --recursive https://github.com/KhronosGroup/Vulkan-Hpp.git && \
+    cd Vulkan-Hpp && \
+	git checkout 141e8ce93b47bbbf7e8217a897a427a56a2d32b1 && \
 	cd Vulkan-Docs && \
-	git checkout v1.0.68-core && \
+	git checkout v1.1.70-core && \
 	cd .. && \
 	mkdir build && cd build && \
 	cmake .. && cmake --build . && ./VulkanHppGenerator && \
-	cp ../vulkan/vulkan.hpp /VulkanSDK/1.0.68.0/x86_64/include/vulkan/
+	cp ../vulkan/vulkan.hpp /VulkanSDK/1.1.70.1/x86_64/include/vulkan/
 
-ENV	VULKAN_SDK="/VulkanSDK/1.0.68.0/x86_64"
+ENV	VULKAN_SDK="/VulkanSDK/1.1.70.1/x86_64"
 ENV	PATH="${VULKAN_SDK}/bin:${PATH}"
 ENV	LD_LIBRARY_PATH="${VULKAN_SDK}/lib:${LD_LIBRARY_PATH}"
 ENV	VK_LAYER_PATH="${VULKAN_SDK}/etc/explicit_layer.d"
