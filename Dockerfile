@@ -39,7 +39,7 @@ RUN git clone --recursive https://github.com/KhronosGroup/Vulkan-Hpp.git && \
     cd Vulkan-Hpp && \
 	git checkout 141e8ce93b47bbbf7e8217a897a427a56a2d32b1 && \
 	cd Vulkan-Docs && \
-	git checkout v1.1.70-core && \
+	git checkout v1.1.70 && \
 	cd .. && \
 	mkdir build && cd build && \
 	cmake .. && cmake --build . && ./VulkanHppGenerator && \
