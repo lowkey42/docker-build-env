@@ -1,51 +1,53 @@
-FROM       ubuntu:artful 
+FROM       debian:testing-slim
 MAINTAINER Florian Oetke
 CMD        bash
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y wget software-properties-common python-software-properties
-
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ artful-proposed restricted main multiverse universe" >> /etc/apt/sources.list
-
-
-RUN apt-get update && \
-	apt-get install -y build-essential ninja-build && \
-	apt-get install -y git && \
-	apt-get install -y xorg-dev libglu1-mesa-dev --fix-missing && \
-	apt-get purge -y gcc g++ && \
-	apt-get install -y gcc-7 g++-7 && \
-	apt-get install -y xutils-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev
-
-RUN rm -f /usr/bin/g++
-RUN rm -f /usr/bin/gcc
-RUN ln -s /usr/bin/g++-7 /usr/bin/g++
-RUN ln -s /usr/bin/gcc-7 /usr/bin/gcc
-
-
-RUN wget -O clang-binaries.tar.xz http://releases.llvm.org/5.0.0/clang+llvm-5.0.0-linux-x86_64-ubuntu16.04.tar.xz && tar -xf clang-binaries.tar.xz --strip 1 -C /usr && rm -f clang-binaries.tar.xz
-
-RUN wget https://cmake.org/files/v3.9/cmake-3.9.3-Linux-x86_64.sh && \
-    chmod +x ./cmake-3.9.3-Linux-x86_64.sh &&\
-    ./cmake-3.9.3-Linux-x86_64.sh --skip-license && \
-    rm ./cmake-3.9.3-Linux-x86_64.sh
-
-RUN wget -O VulkanSDK.run https://vulkan.lunarg.com/sdk/download/1.1.70.1/linux/vulkansdk-linux-x86_64-1.1.70.1.run?human=true && \
-	chmod ugo+x VulkanSDK.run
-
-RUN	./VulkanSDK.run && rm -f VulkanSDK.run
-
-RUN git clone --recursive https://github.com/KhronosGroup/Vulkan-Hpp.git && \
+RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs ninja-build make binutils-gold xorg-dev xutils-dev libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev cmake wget xz-utils ca-certificates gcc-8 g++-8 libstdc++-8-dev clang-6.0 libc++-dev libc++abi-dev clang-tools-6.0 lld-6.0 && \
+	update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-6.0 100 && \
+	update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 100 && \
+	update-alternatives --install /usr/bin/g++ g++ /usr/bin/x86_64-linux-gnu-g++-8 100 && \
+	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100 && \
+	update-alternatives --install /usr/bin/scan-build scan-build /usr/bin/scan-build-6.0 100 && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-check && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-import-test && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-query && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-refactor && \
+	rm -f /usr/lib/llvm-6.0/bin/clangd && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-change-namespace && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-include-fixer && \
+	rm -f /usr/lib/llvm-6.0/bin/find-all-symbols && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-rename && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-reorder-fields && \
+	rm -f /usr/lib/llvm-6.0/bin/c-index-test && \
+	rm -f /usr/lib/llvm-6.0/bin/modularize && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-func-mapping && \
+	rm -f /usr/lib/llvm-6.0/bin/clang-apply-replacements && \
+	rm -f /usr/lib/llvm-6.0/lib/libLLV*.a && \
+	git clone --recursive https://github.com/KhronosGroup/Vulkan-Hpp.git && \
     cd Vulkan-Hpp && \
-	git checkout 141e8ce93b47bbbf7e8217a897a427a56a2d32b1 && \
+	git checkout eaf0fda6de05628efa009b465124e9cfaca74832 && \
 	cd Vulkan-Docs && \
-	git checkout v1.1.70 && \
+	git checkout v1.1.73 && \
 	cd .. && \
 	mkdir build && cd build && \
 	cmake .. && cmake --build . && ./VulkanHppGenerator && \
-	cp ../vulkan/vulkan.hpp /VulkanSDK/1.1.70.1/x86_64/include/vulkan/
+	wget --no-check-certificate -O VulkanSDK.run https://vulkan.lunarg.com/sdk/download/1.1.73.0/linux/vulkansdk-linux-x86_64-1.1.73.0.run?Human=true && \
+	chmod ugo+x VulkanSDK.run && \
+	./VulkanSDK.run --target /VulkanSDK && rm -f VulkanSDK.run && \
+	cp ../vulkan/vulkan.hpp /VulkanSDK/1.1.73.0/x86_64/include/vulkan/ && \
+	cd ../.. && \
+	rm -r Vulkan-Hpp && \
+	apt-get purge -y wget gdb xz-utils man vim-common python3 locales && \
+	apt-get autoremove -y && \
+	apt-get install -y --no-install-recommends libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/* && \
+	rm -rf /VulkanSDK/1.1.73.0/doc && \
+	rm -rf /VulkanSDK/1.1.73.0/source
 
-ENV	VULKAN_SDK="/VulkanSDK/1.1.70.1/x86_64"
+ENV	VULKAN_SDK="/VulkanSDK/1.1.73.0/x86_64"
 ENV	PATH="${VULKAN_SDK}/bin:${PATH}"
 ENV	LD_LIBRARY_PATH="${VULKAN_SDK}/lib:${LD_LIBRARY_PATH}"
 ENV	VK_LAYER_PATH="${VULKAN_SDK}/etc/explicit_layer.d"
