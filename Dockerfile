@@ -39,7 +39,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs 
 	cp ../vulkan/vulkan.hpp /VulkanSDK/1.1.73.0/x86_64/include/vulkan/ && \
 	cd ../.. && \
 	rm -r Vulkan-Hpp && \
-	apt-get purge -y wget gdb xz-utils man vim-common python3 locales && \
+	apt-get purge -y gdb man vim-common python3 locales && \
 	apt-get autoremove -y && \
 	apt-get install -y --no-install-recommends libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev && \
 	apt-get clean && \
