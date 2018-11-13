@@ -4,12 +4,12 @@ CMD        bash
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs ninja-build make binutils-gold xorg-dev xutils-dev libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev cmake wget xz-utils ca-certificates gcc-8 g++-8 libstdc++-8-dev clang-6.0 libc++-dev libc++abi-dev clang-tools-6.0 lld-6.0 python2 python && \
-	update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-6.0 100 && \
-	update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 100 && \
+RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs ninja-build make binutils-gold xorg-dev xutils-dev libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev cmake wget xz-utils ca-certificates gcc-8 g++-8 libstdc++-8-dev clang-7 libc++-dev libc++abi-dev clang-tools-7 lld-7 python2 python && \
+	update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-7 100 && \
+	update-alternatives --install /usr/bin/clang clang /usr/bin/clang-7 100 && \
 	update-alternatives --install /usr/bin/g++ g++ /usr/bin/x86_64-linux-gnu-g++-8 100 && \
 	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100 && \
-	update-alternatives --install /usr/bin/scan-build scan-build /usr/bin/scan-build-6.0 100 && \
+	update-alternatives --install /usr/bin/scan-build scan-build /usr/bin/scan-build-7 100 && \
 	rm -f /usr/lib/llvm-6.0/bin/clang-check && \
 	rm -f /usr/lib/llvm-6.0/bin/clang-import-test && \
 	rm -f /usr/lib/llvm-6.0/bin/clang-query && \
