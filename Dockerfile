@@ -28,15 +28,19 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs 
 	rm -f /usr/lib/llvm-*/lib/libLLV*.a && \
 	git clone https://github.com/google/shaderc && \
 	cd shaderc && \
-	git checkout a84571caead1f963701fd6ff859a32c4b2d5a702 && \
+	git checkout 702723ac7599d229195aabfee0b61954ad087140 && \
 	git clone https://github.com/google/googletest.git third_party/googletest && \
-	cd third_party/googletest && git checkout 440527a61e1c91188195f7de212c63c77e8f0a45 && cd ../.. && \
-	git clone https://github.com/google/glslang.git third_party/glslang && \
-	cd third_party/glslang && git checkout 91ac4290bcf2cb930b4fb0981f09c00c0b6797e1 && cd ../.. && \
+	cd third_party/googletest && git checkout b1fbd33c06cdb0024c67733c6fdec2009d17b384 && cd ../.. && \
+	git clone https://github.com/KhronosGroup/glslang.git third_party/glslang && \
+	cd third_party/glslang && git checkout dd69df7f3dac26362e10b0f38efb9e47990f7537 && cd ../.. && \
 	git clone https://github.com/KhronosGroup/SPIRV-Tools.git third_party/spirv-tools && \
-	cd third_party/spirv-tools && git checkout ad0232dee5f5c15a5713d5b14e1763fcca6b02b8 && cd ../.. && \
+	cd third_party/spirv-tools && git checkout b27b1afd12d05bf238ac7368bb49de73cd620a8e && cd ../.. && \
+	git clone https://github.com/google/re2.git third_party/re2 && \
+	cd third_party/re2 && git checkout 91420e899889cffd100b70e8cc50611b3031e959 && cd ../.. && \
+	git clone https://github.com/google/effcee.git third_party/effcee && \
+	cd third_party/effcee && git checkout 5af957bbfc7da4e9f7aa8cac11379fa36dd79b84 && cd ../.. && \
 	git clone https://github.com/KhronosGroup/SPIRV-Headers.git third_party/spirv-tools/external/spirv-headers && \
-	cd third_party/spirv-tools/external/spirv-headers && git checkout d5b2e1255f706ce1f88812217e9a554f299848af && cd ../../../.. && \
+	cd third_party/spirv-tools/external/spirv-headers && git checkout f027d53ded7e230e008d37c8b47ede7cd308e19d && cd ../../../.. && \
 	mkdir build && cd build && \
 	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
 	cmake --build . -- -j2 install && \
