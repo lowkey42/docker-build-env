@@ -4,7 +4,7 @@ CMD        bash
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs ninja-build make binutils-gold xorg-dev xutils-dev libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev cmake wget xz-utils ca-certificates gcc-10 g++-10 libstdc++-10-dev clang-11 libc++-11-dev libc++abi-11-dev clang-tools-11 lld-11 python2 python lcov python3-pip libglew-dev libglfw3-dev emscripten && \
+RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs ninja-build make binutils-gold xorg-dev xutils-dev libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev cmake wget xz-utils ca-certificates gcc-10 g++-10 libstdc++-10-dev clang-11 libc++-11-dev libc++abi-11-dev clang-tools-11 lld-11 python2 python lcov python3-pip libglew-dev libglfw3-dev curl  emscripten && \
 	update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100 && \
 	update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100 && \
 	update-alternatives --install /usr/bin/g++ g++ /usr/bin/x86_64-linux-gnu-g++-10 100 && \
