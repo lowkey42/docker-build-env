@@ -1,15 +1,15 @@
-FROM       debian:testing-slim
+FROM       debian:unstable-slim
 MAINTAINER Florian Oetke
 CMD        bash
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs ninja-build make binutils-gold xorg-dev xutils-dev libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev cmake wget xz-utils ca-certificates gcc-10 g++-10 libstdc++-10-dev clang-11 libc++-11-dev libc++abi-11-dev clang-tools-11 lld-11 python2 python lcov python3-pip libglew-dev libglfw3-dev curl  emscripten && \
-	update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100 && \
-	update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100 && \
+RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs ninja-build make binutils-gold xorg-dev xutils-dev libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev cmake wget xz-utils ca-certificates gcc-10 g++-10 libstdc++-10-dev clang-12 libc++-12-dev libc++abi-12-dev clang-tools-12 lld-12 python2 python lcov python3-pip libglew-dev libglfw3-dev curl  emscripten && \
+	update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-12 100 && \
+	update-alternatives --install /usr/bin/clang clang /usr/bin/clang-12 100 && \
 	update-alternatives --install /usr/bin/g++ g++ /usr/bin/x86_64-linux-gnu-g++-10 100 && \
 	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 && \
-	update-alternatives --install /usr/bin/scan-build scan-build /usr/bin/scan-build-11 100 && \
+	update-alternatives --install /usr/bin/scan-build scan-build /usr/bin/scan-build-12 100 && \
 	pip install conan && \
 	rm -f /usr/lib/llvm-*/bin/clang-check && \
 	rm -f /usr/lib/llvm-*/bin/clang-import-test && \
@@ -45,29 +45,18 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends git git-lfs 
 	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
 	cmake --build . -- -j2 install && \
 	cd ../.. && rm -rf shaderc && \
-	git clone --recursive https://github.com/KhronosGroup/Vulkan-Hpp.git && \
-    cd Vulkan-Hpp && \
-	git checkout 1eaee056764cc50b369b555d20afe052177c9933 && \
-	cd Vulkan-Headers && \
-	git checkout v1.2.148 && \
-	cd .. && \
-	mkdir build && cd build && \
-	cmake .. && cmake --build . && ./VulkanHppGenerator && \
-	wget --no-check-certificate -O VulkanSDK.tar.gz https://sdk.lunarg.com/sdk/download/1.2.148.1/linux/vulkansdk-linux-1.2.148.1.tar.gz && \
+	wget --no-check-certificate -O VulkanSDK.tar.gz https://sdk.lunarg.com/sdk/download/1.2.176.1/linux/vulkansdk-linux-x86_64-1.2.176.1.tar.gz && \
 	mkdir /VulkanSDK && \
 	tar -xzf VulkanSDK.tar.gz -C /VulkanSDK && \
-	cp ../vulkan/vulkan.hpp /VulkanSDK/1.2.148.1/x86_64/include/vulkan/ && \
-	cd ../.. && \
-	rm -r Vulkan-Hpp && \
 	apt-get purge -y gdb man vim-common python2 locales && \
 	apt-get autoremove -y && \
 	apt-get install -y --no-install-recommends libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* && \
-	rm -rf /VulkanSDK/1.2.148.1/doc && \
-	rm -rf /VulkanSDK/1.2.148.1/source
+	rm -rf /VulkanSDK/1.2.176.1/doc && \
+	rm -rf /VulkanSDK/1.2.176.1/source
 
-ENV	VULKAN_SDK="/VulkanSDK/1.2.148.1/x86_64"
+ENV	VULKAN_SDK="/VulkanSDK/1.2.176.1/x86_64"
 ENV	PATH="${VULKAN_SDK}/bin:${PATH}"
 ENV	LD_LIBRARY_PATH="${VULKAN_SDK}/lib:${LD_LIBRARY_PATH}"
 ENV	VK_LAYER_PATH="${VULKAN_SDK}/etc/explicit_layer.d"
